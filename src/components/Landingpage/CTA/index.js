@@ -7,10 +7,10 @@ const CTA = () => {
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="text-center lg:flex lg:items-center lg:justify-between lg:text-left">
           <div className="space-y-8">
-            <h2 className="max-w-xl mx-auto text-4xl font-bold text-gray-900 lg:mx-0 font-pj lg:pr-8 xl:pr-0">
+            <p className="max-w-xl mx-auto sm:text-2xl xl:text-4xl font-bold text-gray-900 lg:mx-0 font-pj lg:pr-8 xl:pr-0">
               Effortless Website Creation Awaits You!
-            </h2>
-            <h4 className="text-2xl">
+            </p>
+            <h4 className="text-lg">
               Affordable. Customizable. Built with the tech stack you love.
             </h4>
           </div>
@@ -46,11 +46,11 @@ const CTA = () => {
                                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900
                                     font-pj
                                     hover:bg-opacity-90
-                                    rounded-xl
+                                    rounded-full
                                 "
                 role="button"
               >
-                Download Rareblocks
+                Start building
               </a>
             </div>
           </div>

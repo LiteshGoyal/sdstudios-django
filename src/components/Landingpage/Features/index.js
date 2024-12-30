@@ -55,7 +55,7 @@ export default function Features() {
                   <h3 className="text-2xl font-bold text-gray-900 mt-4 font-pj">
                     {feature.title}
                   </h3>
-                  <p className="mt-6 text-base text-gray-600 font-pj">
+                  <p className="mt-6 text-lg text-gray-600 font-pj">
                     {feature.desc}
                   </p>
                 </div>

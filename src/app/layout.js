@@ -3,8 +3,8 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata = {
-  title: "Hotel Management system",
-  description: "Hotel management system build using nextjs and django",
+  title: "SpringDjango Studios | Build custom websites",
+  description: "professional websites tailored to your needs—fast, reliable, and at an unbeatable price. Choose your tech stack—Django, Java, or anything else ",
 };
 
 export default function RootLayout({ children }) {

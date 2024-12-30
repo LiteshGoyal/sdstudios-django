@@ -17,13 +17,13 @@ const Header = () => {
           <div className="flex items-center justify-between">
             <div className="flex flex-shrink-0">
               <a
-                href="#"
+                href="/"
                 title="BakerStreet"
                 className="inline-flex rounded-md focus:outline-none focus:ring-2 focus:ring-offset-4 focus:ring-offset-secondary focus:ring-primary"
               >
                 <img
                   className="w-auto h-8"
-                  src="https://cdn.rareblocks.xyz/collection/bakerstreet/images/logo.svg"
+                  src="/logo/sdstudios.png"
                   alt="BakerStreet"
                 />
               </a>

@@ -6,10 +6,10 @@ const Pricing = () => {
     <section className="py-12 bg-gray-50 sm:py-16 lg:py-20">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="max-w-xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl xl:text-5xl font-pj">
+          <h2 className="text-2xl font-bold text-gray-900 sm:text-4xl xl:text-5xl font-pj">
           Find the Perfect Plan for Your Business Needs
           </h2>
-          <p className="mt-6 text-base font-normal text-gray-600 font-pj">
+          <p className="mt-6 text-lg font-normal text-gray-600 font-pj">
           Whether you need a single website or ongoing support for unlimited projects, we&apos;ve got the right plan to help you succeed. Choose a plan that fits your goals and budget.
           </p>
         </div>
@@ -490,7 +490,7 @@ const Pricing = () => {
           </div>
         </div>
 
-        <p className="max-w-md mx-auto mt-8 text-base text-center text-gray-500 md:mt-16 font-pj">
+        <p className="max-w-md mx-auto mt-8 text-lg text-center text-gray-500 md:mt-16 font-pj">
           We don’t bill you automatically until your confirmation. We don’t
           store or sell your data to anyone.
         </p>

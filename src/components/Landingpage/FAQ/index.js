@@ -48,8 +48,8 @@ export default function FaqSection() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mx-auto flex mb-12">
           <div className="mx-auto ms-0 text-left">
-            <h1 className="text-3xl font-semibold tracking-tight text-gray-100 sm:text-4xl lg:text-5xl">Frequently Asked</h1>
-            <h2 className="text-3xl font-semibold tracking-tight text-gray-100 sm:text-4xl lg:text-5xl">Questions</h2>
+            <h1 className="text-2xl font-semibold tracking-tight text-gray-100 sm:text-4xl lg:text-5xl">Frequently Asked</h1>
+            <h2 className="text-2xl font-semibold tracking-tight text-gray-100 sm:text-4xl lg:text-5xl">Questions</h2>
           </div>
           <div className="mx-auto">
             <button className="inline-flex items-center justify-center px-5 py-2 font-sans text-base font-semibold leading-6 transition-all duration-200 border-2 border-transparent rounded-full sm:leading-8 bg-white sm:text-lg text-black hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-secondary ">
@@ -64,7 +64,7 @@ export default function FaqSection() {
             <div key={index} className="border-b border-gray-600">
             <button
               onClick={() => toggleFaq(index)}
-              className="w-full text-left flex justify-between items-center py-4 text-2xl focus:outline-none"
+              className="w-full text-left flex justify-between items-center py-4 text-lg focus:outline-none"
             >
               <span>{faq.question}</span>
               <span className="ml-4">
@@ -76,7 +76,7 @@ export default function FaqSection() {
                 openIndex === index ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
               }`}
             >
-              <div className="text-gray-400 text-xl pb-4 pl-4">{faq.answer}</div>
+              <div className="text-gray-400 text-lg pb-4 pl-4">{faq.answer}</div>
             </div>
           </div>
           
