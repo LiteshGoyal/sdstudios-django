@@ -2,6 +2,7 @@
 import { useState } from 'react';
 
 import { usePathname } from 'next/navigation';
+import Dashboard from '@/app/dashboard/page';
 
 const Header = () => {
   const pathname = usePathname();
@@ -94,7 +95,6 @@ const Header = () => {
               }
               {
                 user &&
-                <div className='space-x-4'>
                 <a
                   href="/dashboard"
                   title=""
@@ -102,14 +102,6 @@ const Header = () => {
                 >
                   Dashboard
                 </a>
-                <a
-                  href="/auth/sign-out"
-                  title=""
-                  className="inline-flex items-center justify-center px-5 py-2 font-sans text-base font-semibold leading-6 transition-all duration-200 border-2 border-transparent rounded-full sm:leading-8 bg-white sm:text-xl text-black hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-secondary hover:scale-110"
-                >
-                  LogOut
-                </a>
-                </div>
               }
             </div>
           </div>
@@ -136,12 +128,22 @@ const Header = () => {
             >
               Contact Us
             </a>
+            {!user &&
             <a
               href="/auth/sign-up"
               className="block text-white text-lg font-semibold py-2"
             >
-              SignUp
-            </a>
+                SignUp
+              </a>
+              }
+            {user &&
+            <a
+              href="/dashboard"
+              className="block text-white text-lg font-semibold py-2"
+            >
+                Dashboard
+              </a>
+              }
           </div>
         </div>
       </header>
