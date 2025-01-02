@@ -4,7 +4,7 @@ const features = [
   {
     icon: Code,
     title: "Flexible Tech Stack",
-    desc: "Whether you prefer Django, Java, or another platform, we adapt to your chosen technology to deliver a website that aligns with your goals.",
+    desc: "Whether you prefer Django, Java, or another platform, we adapt your chosen technology to deliver website that aligns with your goals.",
   },
   {
     icon: Wallet,

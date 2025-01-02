@@ -8,8 +8,8 @@ const Footer = () => {
             <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div className="lg:flex lg:items-start lg:justify-between">
                     <div className="text-center lg:text-left">
-                        <a href="#" title="" className="flex">
-                            <img className="w-auto mx-auto h-9 lg:mx-0" src="https://landingfoliocom.imgix.net/store/collection/dusk/images/logo.svg" alt="" />
+                        <a href="/" title="" className="flex">
+                            <img className="w-auto mx-auto h-20 lg:mx-0" src="/logo/logo.png" alt="" />
                         </a>
                         <p className="mt-6 text-lg font-normal text-gray-400 lg:max-w-xs">Custom Websites
                         Built Your Way</p>
@@ -27,7 +27,7 @@ const Footer = () => {
 
                         <ul className="flex items-center justify-center mt-8 space-x-6 lg:justify-start sm:space-x-12">
                             <li>
-                                <Link href="#" title="" className="flex text-lg font-normal transition-all duration-200 transform text-gray-50 hover:text-white hover:-translate-y-1"> About </Link>
+                                <Link href="/about" title="" className="flex text-lg font-normal transition-all duration-200 transform text-gray-50 hover:text-white hover:-translate-y-1"> About </Link>
                             </li>
 
                             <li>

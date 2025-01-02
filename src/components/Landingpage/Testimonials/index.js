@@ -24,11 +24,11 @@ export default function Testimonials() {
   return (
     <section className="py-12 bg-[#05131c] sm:py-16 lg:py-20 xl:py-24">
       <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
-        <div className="max-w-3xl flex space-x-8 mx-auto text-center">
+        <div className="max-w-3xl  sm:space-y-4 sm:block md:flex space-x-8 mx-auto text-center">
           <h2 className="text-3xl font-semibold tracking-tight text-gray-100 sm:text-2xl xl:text-4xl ">
             Don't just take our words. Many people trust us.
           </h2>
-          <div className="w-px h-20 bg-gray-600"></div>
+          <div className="w-px sm:h-0 md:h-20 bg-gray-600"></div>
           <h3 className="text-2xl text-green-600 font-bold my-auto">
             Testimonials
           </h3>
