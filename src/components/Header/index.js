@@ -7,7 +7,6 @@ const Header = () => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Toggle menu visibility
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -15,7 +14,8 @@ const Header = () => {
     pathname === '/'
       ? ''
       : 'bg-[#05131c]';
-
+  var user = localStorage.getItem('user')
+  user = JSON.parse(user)
   return (
     <div>
       <header className={`absolute inset-x-0 top-0 z-10 py-5 xl:py-8 ${bgColor}`}>
@@ -83,14 +83,34 @@ const Header = () => {
               >
                 Contact Us
               </a>
-
-              <a
-                href="/auth/sign-up"
-                title=""
-                className="inline-flex items-center justify-center px-5 py-2 font-sans text-base font-semibold leading-6 transition-all duration-200 border-2 border-transparent rounded-full sm:leading-8 bg-white sm:text-xl text-black hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-secondary hover:scale-110"
-              >
-                SignUp
-              </a>
+              {!user &&
+                <a
+                  href="/auth/sign-up"
+                  title=""
+                  className="inline-flex items-center justify-center px-5 py-2 font-sans text-base font-semibold leading-6 transition-all duration-200 border-2 border-transparent rounded-full sm:leading-8 bg-white sm:text-xl text-black hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-secondary hover:scale-110"
+                >
+                  SignUp
+                </a>
+              }
+              {
+                user &&
+                <div className='space-x-4'>
+                <a
+                  href="/dashboard"
+                  title=""
+                  className="inline-flex items-center justify-center px-5 py-2 font-sans text-base font-semibold leading-6 transition-all duration-200 border-2 border-transparent rounded-full sm:leading-8 bg-white sm:text-xl text-black hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-secondary hover:scale-110"
+                >
+                  Dashboard
+                </a>
+                <a
+                  href="/auth/sign-out"
+                  title=""
+                  className="inline-flex items-center justify-center px-5 py-2 font-sans text-base font-semibold leading-6 transition-all duration-200 border-2 border-transparent rounded-full sm:leading-8 bg-white sm:text-xl text-black hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-secondary hover:scale-110"
+                >
+                  LogOut
+                </a>
+                </div>
+              }
             </div>
           </div>
 

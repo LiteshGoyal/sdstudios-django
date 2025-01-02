@@ -1,6 +1,56 @@
+'use client'
+import { useState, useRef } from "react"
 export default function SignUp() {
+    const [successMessage, setSuccessMessage] = useState(false)
+    const [errMessage, setErrMessage] = useState('')
+    async function handleform(formData) {
+        console.log(formData);
+        const fd = {
+            'username': formData.get('username'),
+            'password': formData.get('password'),
+            'profile': {
+                'email': formData.get('email')
+            }
+        }
+        const res = await fetch('http://127.0.0.1:8000/api/signup', {
+            method: 'POST',
+            body: JSON.stringify(fd),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        const resData = await res.json()
+        if (res.ok) {
+            setSuccessMessage(true)
+            setErrMessage('')
+        }
+        else {
+            var errorArr = []
+            if (resData['profile'] != undefined) {
+                for (const [key, values] of Object.entries(resData['profile'])) {
+                    for (let i = 0; i < values.length; i++) {
+                        errorArr.push(<p>{key}:{values[i]}</p>)
+
+                    }
+                }
+            } else {
+                for (const [key, values] of Object.entries(resData)) {
+                    for (let i = 0; i < values.length; i++) {
+                        errorArr.push(<p>{key}:{values[i]}</p>)
+                    }
+                }
+            }
+
+            setErrMessage(errorArr)
+            setSuccessMessage(false)
+            console.log(resData);
+        }
+
+
+    }
     return (
         <section className="bg-white sm:pt-32 md:pt-36">
+
             <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="relative flex items-end px-4 pb-10 pt-60 sm:pb-16 md:justify-center lg:pb-24 bg-gray-50 sm:px-6 lg:px-8">
                     <div className="absolute inset-0">
@@ -53,11 +103,21 @@ export default function SignUp() {
                     <div className="xl:w-full xl:max-w-sm 2xl:max-w-md xl:mx-auto">
                         <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl">Sign up to Start Building</h2>
                         <p className="mt-2 text-base text-gray-600">Already have an account? <a href="/auth/sign-in" title="" className="font-medium text-green-600 transition-all duration-200 hover:text-green-700 focus:text-green-700 hover:underline">Login</a></p>
+                        {
+                            successMessage && <div>
+                                I am created
+                            </div>
+                        }
+                        {
+                            errMessage && <div className="bg-red-200 p-5 rounded-lg font-semibold border border-2 border-red-500">
+                                {errMessage}
+                            </div>
+                        }
 
-                        <form action="#" method="POST" className="mt-8">
+                        <form action={handleform} className="mt-8">
                             <div className="space-y-5">
                                 <div>
-                                    <label htmlFor="" className="text-base font-medium text-gray-900"> First & Last name </label>
+                                    <label htmlFor="" className="text-base font-medium text-gray-900"> First name </label>
                                     <div className="mt-2.5 relative text-gray-400 focus-within:text-gray-600">
                                         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                             <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -67,8 +127,8 @@ export default function SignUp() {
 
                                         <input
                                             type="text"
-                                            name=""
-                                            id=""
+                                            name="username"
+                                            id="name"
                                             placeholder="Enter your full name"
                                             className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-green-600 focus:bg-white caret-green-600"
                                         />
@@ -86,8 +146,8 @@ export default function SignUp() {
 
                                         <input
                                             type="email"
-                                            name=""
-                                            id=""
+                                            name="email"
+                                            id="mail"
                                             placeholder="Enter email to get started"
                                             className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-green-600 focus:bg-white caret-green-600"
                                         />
@@ -110,8 +170,8 @@ export default function SignUp() {
 
                                         <input
                                             type="password"
-                                            name=""
-                                            id=""
+                                            name="password"
+                                            id="pass"
                                             placeholder="Enter your password"
                                             className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-green-600 focus:bg-white caret-green-600"
                                         />

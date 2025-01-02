@@ -2,6 +2,52 @@
 import React, { useState } from 'react';
 
 const SignIn = () => {
+    const [successMessage, setSuccessMessage] = useState(false);
+    const [errMessage, setErrMessage] = useState('');
+    async function handleForm(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const fd = {
+            'password': formData.get('password'),
+            'email': formData.get('email')
+        }
+        try {
+            const res = await fetch('http://127.0.0.1:8000/api/login', {
+                method: 'POST',
+                body: JSON.stringify(fd),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+
+            })
+            const resData = await res.json()
+            if (res.ok) {
+                var user = {
+                    'email': fd.email,
+                    'token': resData.token
+                }
+                localStorage.setItem('user', JSON.stringify(user))
+                setSuccessMessage(true)
+                setErrMessage('')
+                location.href = '/dashboard'
+                if (resData.token) {
+                    localStorage.setItem('token', resData.token)
+                }
+            } else {
+                let errorStr = ''
+                for (const [key, values] of Object.entries(resData)) {
+                    for (let i = 0; i < values.length; i++) {
+                        errorStr += `${values[i]} `;
+                    }
+                }
+                setErrMessage(errorStr.trim())
+                setSuccessMessage(false)
+            }
+        } catch (error) {
+            setErrMessage('Something Went Wrong. Please Try Again')
+            setSuccessMessage(false)
+        }
+    }
     return (
         <section className="md:pt-36 sm:pt-32  bg-white">
             <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -57,7 +103,7 @@ const SignIn = () => {
                         <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl">Sign in to Celebration</h2>
                         <p className="mt-2 text-base text-gray-600">Don’t have an account? <a href="/auth/sign-up" title="" className="font-medium text-green-600 transition-all duration-200 hover:text-green-700 focus:text-green-700 hover:underline">Create a free account</a></p>
 
-                        <form action="#" method="POST" className="mt-8">
+                        <form onSubmit={handleForm} className="mt-8">
                             <div className="space-y-5">
                                 <div>
                                     <label htmlFor="" className="text-base font-medium text-gray-900"> Email address </label>
@@ -70,8 +116,8 @@ const SignIn = () => {
 
                                         <input
                                             type="email"
-                                            name=""
-                                            id=""
+                                            name="email"
+                                            id="mail"
                                             placeholder="Enter email to get started"
                                             className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-green-600 focus:bg-white caret-green-600"
                                         />
@@ -98,8 +144,8 @@ const SignIn = () => {
 
                                         <input
                                             type="password"
-                                            name=""
-                                            id=""
+                                            name="password"
+                                            id="pass"
                                             placeholder="Enter your password"
                                             className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-green-600 focus:bg-white caret-green-600"
                                         />
@@ -134,6 +180,12 @@ const SignIn = () => {
                                 </div>
                             </div>
                         </form>
+                        {successMessage && (
+                            <p className="text-green-500 mt-4">Login successful!</p>
+                        )}
+                        {errMessage && (
+                            <p className="text-red-500 mt-4">{errMessage}</p>
+                        )}
 
                         <div className="mt-3 space-y-3">
                             <button
