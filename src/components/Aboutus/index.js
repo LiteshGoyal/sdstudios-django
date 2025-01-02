@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Linkedin, Github } from 'lucide-react';
 export default function AboutUs() {
   return (
-    <div className="md:pt-40 min-h-screen py-10">
+    <div className="pt-40 min-h-screen py-10">
       <div className="container mx-auto px-6 lg:px-20">
         <header className="text-center mb-12">
           <h1 className="text-4xl xl:text-4xl font-bold text-gray-800">About SpringDjango Studios</h1>

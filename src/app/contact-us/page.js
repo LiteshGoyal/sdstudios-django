@@ -1,6 +1,6 @@
 export default function ContactUs() {
     return (
-        <section className="py-12 md:pt-40 overflow-hidden">
+        <section className="py-12 pt-40 overflow-hidden">
             <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div className="grid max-w-6xl grid-cols-1 mx-auto gap-y-12 lg:grid-cols-2 lg:gap-x-16 xl:gap-x-24">
                     <div className="relative flex flex-col justify-between max-w-lg lg:py-12 lg:max-w-none">

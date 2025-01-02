@@ -1,6 +1,6 @@
 export default function SignUp() {
     return (
-        <section className="bg-white md:pt-36">
+        <section className="bg-white sm:pt-32 md:pt-36">
             <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="relative flex items-end px-4 pb-10 pt-60 sm:pb-16 md:justify-center lg:pb-24 bg-gray-50 sm:px-6 lg:px-8">
                     <div className="absolute inset-0">
