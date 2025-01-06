@@ -1,37 +1,33 @@
+"use client";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { Plus } from "lucide-react";
 
 const Blogs = () => {
-  const blogs = [
-    {
-      id: 1,
-      image: "/Hero/hero-bg.jpg",
-      headline: "How to Build with Next.js",
-      description: "Learn the basics of building a website using Next.js.",
-      longDescription:
-        "Next.js is a powerful framework for building web applications. In this blog, we’ll cover its features, advantages, and how you can use it to create dynamic and static websites.",
-      date: "December 30, 2024",
-    },
-    {
-      id: 2,
-      image: "/logo/sdstudios.png",
-      headline: "10 Tips for Better Web Design",
-      description:
-        "Discover 10 essential tips to improve your web design skills.",
-      longDescription:
-        "Web design is more than just aesthetics. In this blog, we’ll explore how to create user-friendly, accessible, and visually appealing websites.",
-      date: "December 29, 2024",
-    },
-    {
-      id: 3,
-      image: "/logo/sd.png",
-      headline: "Understanding Tailwind CSS",
-      description:
-        "A comprehensive guide to getting started with Tailwind CSS.",
-      longDescription:
-        "Tailwind CSS is a utility-first CSS framework. This blog dives deep into its utility-based classes, setup process, and how it simplifies styling.",
-      date: "December 28, 2024",
-    },
-  ];
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/blogs/list`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch blogs");
+        }
+        const data = await response.json();
+        setBlogs(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBlogs();
+  }, []);
+
+  if (loading) return <p className="text-center mt-10">Loading blogs...</p>;
+  if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
 
   return (
     <div className="bg-gray-100 pt-40 min-h-screen py-10">
@@ -39,20 +35,27 @@ const Blogs = () => {
         <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">
           Blog Page
         </h1>
+        <div className="flex items-center w-full">
+          <button className="mx-auto flex bg-[#05131c] text-gray-100 p-4 rounded-lg mb-4 hover:scale-105 transform duration-300 hover:shadow-2">
+            <Plus className="text-gray-100 me-2" /> New blog
+          </button>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {blogs.map((blog) => (
             <Link key={blog.id} href={`/blogs/${blog.id}`}>
               <div className="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer hover:shadow-lg hover:scale-105 transition-transform duration-300 transition-shadow">
                 <img
-                  src={blog.image}
-                  alt={blog.headline}
+                  src={blog.img}
+                  alt={blog.title}
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-4">
                   <h2 className="text-xl font-semibold text-gray-800">
                     {blog.headline}
                   </h2>
-                  <p className="text-gray-600 text-sm mt-1">{blog.date}</p>
+                  <p className="text-gray-600 text-sm mt-1">
+                    {blog.created_at}
+                  </p>
                   <p className="text-gray-700 mt-2">{blog.description}</p>
                 </div>
               </div>

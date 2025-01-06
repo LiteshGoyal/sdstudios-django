@@ -1,27 +1,5 @@
-export const blogs = [
-  {
-    id: "1",
-    image: "/blog1.jpg",
-    headline: "How to Build a Website with Next.js",
-    longDescription:
-      "Next.js is a powerful framework for building web applications. In this blog, we'll cover its features, advantages, and how you can use it to create dynamic and static websites.",
-    date: "December 30, 2024",
-  },
-  {
-    id: "2",
-    image: "/blog2.jpg",
-    headline: "10 Tips for Better Web Design",
-    longDescription:
-      "Web design is more than just aesthetics; it's about creating a user-friendly and engaging experience. Here are 10 tips for better web design.",
-    date: "December 29, 2024",
-  },
-];
+import { Link } from "lucide-react";
 
-export async function generateStaticParams() {
-  return blogs.map((blog) => ({
-    id: blog.id,
-  }));
-}
 
 export default function BlogPage({ params }) {
   const blog = blogs.find((b) => b.id === params.id);
@@ -31,11 +9,27 @@ export default function BlogPage({ params }) {
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold">{blog.headline}</h1>
-      <img src={blog.image} alt={blog.headline} className="w-full my-4" />
-      <p className="text-gray-600">{blog.date}</p>
-      <p className="mt-4">{blog.longDescription}</p>
-    </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {blogs.map((blog) => (
+            <Link key={blog.id} href={`/blogs/${blog.id}`}>
+              <div className="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer hover:shadow-lg hover:scale-105 transition-transform duration-300 transition-shadow">
+                <img
+                  src={blog.img}
+                  alt={blog.title}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-4">
+                  <h2 className="text-xl font-semibold text-gray-800">
+                    {blog.headline}
+                  </h2>
+                  <p className="text-gray-600 text-sm mt-1">
+                    {blog.created_at}
+                  </p>
+                  <p className="text-gray-700 mt-2">{blog.description}</p>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
   );
 }
