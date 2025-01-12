@@ -1,55 +1,57 @@
 'use client'
 import React, { useState } from 'react';
-
+import { useRouter } from "next/navigation";
 const SignIn = () => {
-    const [successMessage, setSuccessMessage] = useState(false);
-    const [errMessage, setErrMessage] = useState('');
-    async function handleForm(event) {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const fd = {
-            'password': formData.get('password'),
-            'email': formData.get('email')
-        }
+    const router = useRouter()
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState('')
+    const [formData, setFormData] = useState({
+        username: '',
+        password: '',
+    })
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSignin = async (e) => {
+        e.preventDefault()
+        setIsLoading(true)
+        setError('')
+
         try {
-            const res = await fetch('http://127.0.0.1:8000/api/login', {
+            const res = await fetch('http://127.0.0.1:8000/api/login/', {
                 method: 'POST',
-                body: JSON.stringify(fd),
                 headers: {
                     'Content-Type': 'application/json',
-                }
-
+                },
+                body: JSON.stringify(formData),
             })
-            const resData = await res.json()
-            if (res.ok) {
-                var user = {
-                    'email': fd.email,
-                    'token': resData.token
-                }
-                localStorage.setItem('user', JSON.stringify(user))
-                setSuccessMessage(true)
-                setErrMessage('')
-                location.href = '/dashboard'
-                if (resData.token) {
-                    localStorage.setItem('token', resData.token)
-                }
-            } else {
-                let errorStr = ''
-                for (const [key, values] of Object.entries(resData)) {
-                    for (let i = 0; i < values.length; i++) {
-                        errorStr += `${values[i]} `;
-                    }
-                }
-                setErrMessage(errorStr.trim())
-                setSuccessMessage(false)
+
+            const data = await res.json()
+
+            if (!res.ok) {
+                throw new Error(data.error || 'Sign in failed')
             }
-        } catch (error) {
-            setErrMessage('Something Went Wrong. Please Try Again')
-            setSuccessMessage(false)
+
+            // Store tokens in localStorage
+            localStorage.setItem('access_token', data.access)
+            localStorage.setItem('refresh_token', data.refresh)
+
+            router.push('/dashboard')
+            alert('Logged In succesfully!'); // Redirect to dashboard after successful login
+        } catch (err) {
+            setError(err.message)
+        } finally {
+            setIsLoading(false)
         }
     }
+
     return (
-        <section className="md:pt-36 sm:pt-32  bg-white">
+        <section className="md:pt-36 sm:pt-32 bg-white">
             <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="relative flex items-end px-4 pb-10 pt-60 sm:pb-16 md:justify-center lg:pb-24 bg-gray-50 sm:px-6 lg:px-8">
                     <div className="absolute inset-0">
@@ -103,10 +105,10 @@ const SignIn = () => {
                         <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl">Sign in to Celebration</h2>
                         <p className="mt-2 text-base text-gray-600">Don’t have an account? <a href="/auth/sign-up" title="" className="font-medium text-green-600 transition-all duration-200 hover:text-green-700 focus:text-green-700 hover:underline">Create a free account</a></p>
 
-                        <form onSubmit={handleForm} className="mt-8">
+                        <form onSubmit={handleSignin} className="mt-8">
                             <div className="space-y-5">
                                 <div>
-                                    <label htmlFor="" className="text-base font-medium text-gray-900"> Email address </label>
+                                    <label htmlFor="" className="text-base font-medium text-gray-900"> Username </label>
                                     <div className="mt-2.5 relative text-gray-400 focus-within:text-gray-600">
                                         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                             <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -115,10 +117,12 @@ const SignIn = () => {
                                         </div>
 
                                         <input
-                                            type="email"
-                                            name="email"
+                                            type="text"
+                                            name="username"
                                             id="mail"
-                                            placeholder="Enter email to get started"
+                                            value={formData.username}
+                                            onChange={handleChange}
+                                            placeholder="Enter username to get started"
                                             className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-green-600 focus:bg-white caret-green-600"
                                         />
                                     </div>
@@ -146,6 +150,8 @@ const SignIn = () => {
                                             type="password"
                                             name="password"
                                             id="pass"
+                                            value={formData.password}
+                                            onChange={handleChange}
                                             placeholder="Enter your password"
                                             className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-green-600 focus:bg-white caret-green-600"
                                         />
@@ -155,36 +161,18 @@ const SignIn = () => {
                                 <div>
                                     <button
                                         type="submit"
-                                        className="relative
-                                    inline-flex
-                                    items-center
-                                    justify-center
-                                    w-full
-                                    px-6
-                                    py-3
-                                    text-base
-                                    font-bold
-                                    text-white
-                                    transition-all
-                                    duration-200
-                                    bg-[#05131c]
-                                    border-2 border-transparent
-                                    lg:w-auto
-                                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900
-                                    font-pj
-                                    hover:bg-opacity-90
-                                    rounded-full"
+                                        disabled={isLoading}
+                                        className="relative inline-flex items-center justify-center w-full px-6 py-3 text-base font-bold text-white transition-all duration-200 bg-[#05131c] border-2 border-transparent lg:w-auto focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 font-pj hover:bg-opacity-90 rounded-full"
                                     >
-                                        Log in
+                                         {isLoading ? 'Signing in...' : 'Sign in'}
                                     </button>
                                 </div>
                             </div>
                         </form>
-                        {successMessage && (
-                            <p className="text-green-500 mt-4">Login successful!</p>
-                        )}
-                        {errMessage && (
-                            <p className="text-red-500 mt-4">{errMessage}</p>
+                        {error && (
+                            <div className="bg-red-50 p-4 rounded-md">
+                                <p className="text-red-700">{error}</p>
+                            </div>
                         )}
 
                         <div className="mt-3 space-y-3">

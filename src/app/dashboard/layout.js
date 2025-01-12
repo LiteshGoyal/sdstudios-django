@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-
+import withAuth from '@/components/HOC';
 const DashboardNavigation = ({ children }) => {
     return (
         <div>
@@ -64,4 +64,4 @@ const DashboardNavigation = ({ children }) => {
         </div>
     )
 }
-export default DashboardNavigation;
+export default withAuth(DashboardNavigation);

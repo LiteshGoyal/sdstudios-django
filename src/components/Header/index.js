@@ -1,11 +1,12 @@
 'use client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { usePathname } from 'next/navigation';
 import Dashboard from '@/app/dashboard/page';
 
 const Header = () => {
   const pathname = usePathname();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -15,8 +16,12 @@ const Header = () => {
     pathname === '/'
       ? ''
       : 'bg-[#05131c]';
-  var user = localStorage.getItem('user')
-  user = JSON.parse(user)
+  // var user = localStorage.getItem('user')
+  // user = JSON.parse(user)
+  useEffect(() => {
+    const token = localStorage.getItem('access_token');
+    setIsLoggedIn(!!token); // Convert to boolean
+}, []);
   return (
     <div>
       <header className={`absolute inset-x-0 top-0 z-10 py-5 xl:py-8 ${bgColor}`}>
@@ -84,7 +89,15 @@ const Header = () => {
               >
                 Contact Us
               </a>
-              {!user &&
+              {isLoggedIn ?(
+                <a
+                href="/dashboard"
+                title=""
+                className="inline-flex items-center justify-center px-5 py-2 font-sans text-base font-semibold leading-6 transition-all duration-200 border-2 border-transparent rounded-full sm:leading-8 bg-white sm:text-xl text-black hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-secondary hover:scale-110"
+              >
+                Dashboard
+              </a>
+              ):(
                 <a
                   href="/auth/sign-up"
                   title=""
@@ -92,16 +105,7 @@ const Header = () => {
                 >
                   SignUp
                 </a>
-              }
-              {
-                user &&
-                <a
-                  href="/dashboard"
-                  title=""
-                  className="inline-flex items-center justify-center px-5 py-2 font-sans text-base font-semibold leading-6 transition-all duration-200 border-2 border-transparent rounded-full sm:leading-8 bg-white sm:text-xl text-black hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-secondary hover:scale-110"
-                >
-                  Dashboard
-                </a>
+              )
               }
             </div>
           </div>
@@ -128,21 +132,21 @@ const Header = () => {
             >
               Contact Us
             </a>
-            {!user &&
-            <a
+              {isLoggedIn ?(
+                <a
+                href="/dashboard"
+                className="block text-white text-lg font-semibold py-2"
+              >
+                  Dashboard
+                </a>
+              ):(
+                <a
               href="/auth/sign-up"
               className="block text-white text-lg font-semibold py-2"
             >
                 SignUp
               </a>
-              }
-            {user &&
-            <a
-              href="/dashboard"
-              className="block text-white text-lg font-semibold py-2"
-            >
-                Dashboard
-              </a>
+              )
               }
           </div>
         </div>

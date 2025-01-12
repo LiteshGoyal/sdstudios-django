@@ -147,6 +147,7 @@ const Pricing = () => {
                                 hover:bg-[#05131c] hover:text-white
                                 focus:text-white focus:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900
                                 font-pj
+                                rounded-lg
                             "
                   role="button"
                 >
@@ -330,6 +331,7 @@ const Pricing = () => {
                                     hover:bg-gray-700
                                     focus:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900
                                     font-pj
+                                rounded-lg
                                 "
                     role="button"
                   >
@@ -476,6 +478,7 @@ const Pricing = () => {
                                 hover:bg-[#05131c] hover:text-white
                                 focus:text-white focus:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900
                                 font-pj
+                                rounded-lg
                             "
                   role="button"
                 >

@@ -36,9 +36,9 @@ const Blogs = () => {
           Blog Page
         </h1>
         <div className="flex items-center w-full">
-          <button className="mx-auto flex bg-[#05131c] text-gray-100 p-4 rounded-lg mb-4 hover:scale-105 transform duration-300 hover:shadow-2">
+          <a href="/blogs/new-blog" className="mx-auto flex bg-[#05131c] text-gray-100 p-4 rounded-lg mb-4 hover:scale-105 transform duration-300 hover:shadow-2">
             <Plus className="text-gray-100 me-2" /> New blog
-          </button>
+          </a>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {blogs.map((blog) => (
@@ -57,6 +57,7 @@ const Blogs = () => {
                     {blog.created_at}
                   </p>
                   <p className="text-gray-700 mt-2">{blog.description}</p>
+                  <p className="text-gray-700 mt-2">{blog.author_username}</p>
                 </div>
               </div>
             </Link>
