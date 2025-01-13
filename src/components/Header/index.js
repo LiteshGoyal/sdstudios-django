@@ -16,11 +16,10 @@ const Header = () => {
     pathname === '/'
       ? ''
       : 'bg-[#05131c]';
-  // var user = localStorage.getItem('user')
-  // user = JSON.parse(user)
+      
   useEffect(() => {
     const token = localStorage.getItem('access_token');
-    setIsLoggedIn(!!token); // Convert to boolean
+    setIsLoggedIn(!!token);
 }, []);
   return (
     <div>

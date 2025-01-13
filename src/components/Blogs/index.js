@@ -45,7 +45,7 @@ const Blogs = () => {
             <Link key={blog.id} href={`/blogs/${blog.id}`}>
               <div className="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer hover:shadow-lg hover:scale-105 transition-transform duration-300 transition-shadow">
                 <img
-                  src={blog.img}
+                  src={blog.image}
                   alt={blog.title}
                   className="w-full h-48 object-cover"
                 />

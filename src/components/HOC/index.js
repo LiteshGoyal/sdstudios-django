@@ -1,24 +1,28 @@
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const withAuth = (WrappedComponent) => {
     return (props) => {
         const router = useRouter();
+        const [isAuthenticated, setIsAuthenticated] = useState(false);
 
         useEffect(() => {
-            const token = localStorage.getItem('access_token');
-            if (!token) {
-                // Redirect to login page if not authenticated
-                router.push('/auth/sign-in');
+            // Ensure this runs only in the browser
+            if (typeof window !== 'undefined') {
+              const token = localStorage.getItem('access_token');
+              if (!token) {
                 alert('You need to login first!');
+                router.push('/auth/sign-in'); // Redirect to login page
+              } else {
+                setIsAuthenticated(true); // Set authentication status
+              }
             }
-        }, []);
+          }, [router]);
 
         // Render nothing while checking authentication
-        const token = localStorage.getItem('access_token');
-        if (!token) {
+        if (!isAuthenticated) {
             return null;
-        }
+          }
 
         return <WrappedComponent {...props} />;
     };

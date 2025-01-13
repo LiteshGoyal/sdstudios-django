@@ -1,8 +1,11 @@
+'use client'
 import AddBlog from "@/components/Blogs/NewBlog";
-export default function Landingpage() {
+import withAuth from '@/components/HOC';
+function AddNewBlog() {
   return (
     <div>
       <AddBlog />
     </div>
   );
 }
+export default withAuth(AddNewBlog)

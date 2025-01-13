@@ -37,12 +37,11 @@ const SignIn = () => {
                 throw new Error(data.error || 'Sign in failed')
             }
 
-            // Store tokens in localStorage
             localStorage.setItem('access_token', data.access)
             localStorage.setItem('refresh_token', data.refresh)
 
             router.push('/dashboard')
-            alert('Logged In succesfully!'); // Redirect to dashboard after successful login
+            alert('Logged In succesfully!');
         } catch (err) {
             setError(err.message)
         } finally {
