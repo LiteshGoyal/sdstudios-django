@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import withAuth from '@/components/HOC';
+// import withAuth from '@/components/HOC';
 const DashboardNavigation = ({ children }) => {
     return (
         <div>
@@ -16,19 +16,19 @@ const DashboardNavigation = ({ children }) => {
                                     <p className='hidden lg:block'>Dashboard</p>
                                 </a>
 
-                                <a href="#" title="" className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 transition-all duration-200 bg-white rounded-lg hover:bg-gray-100">
+                                <a href="/dashboard/projects" title="" className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 transition-all duration-200 bg-white rounded-lg hover:bg-gray-100">
                                     <svg className="w-6 h-6 mr-2 -ml-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                     </svg>
-                                    <p className='hidden lg:block'>Analytics</p>
+                                    <p className='hidden lg:block'>Projects</p>
                                     
                                 </a>
 
-                                <a href="#" title="" className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 transition-all duration-200 bg-white rounded-lg hover:bg-gray-100">
+                                <a href="/dashboard/user" title="" className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 transition-all duration-200 bg-white rounded-lg hover:bg-gray-100">
                                     <svg className="w-6 h-6 mr-2 -ml-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
                                     </svg>
-                                    <p className='hidden lg:block'>Products</p>
+                                    <p className='hidden lg:block'>User</p>
                                     
                                 </a>
 
@@ -64,4 +64,4 @@ const DashboardNavigation = ({ children }) => {
         </div>
     )
 }
-export default withAuth(DashboardNavigation);
+export default DashboardNavigation;

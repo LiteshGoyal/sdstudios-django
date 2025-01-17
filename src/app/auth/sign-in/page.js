@@ -1,53 +1,28 @@
 'use client'
 import React, { useState } from 'react';
 import { useRouter } from "next/navigation";
+import { login } from '@/lib/auth';
+
 const SignIn = () => {
-    const router = useRouter()
-    const [isLoading, setIsLoading] = useState(false)
-    const [error, setError] = useState('')
-    const [formData, setFormData] = useState({
-        username: '',
-        password: '',
-    })
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const res = await fetch('http://localhost:8000/api/signin/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: event.target.username.value,
+                password: event.target.password.value,
+            }),
+        });
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        })
-    }
-
-    const handleSignin = async (e) => {
-        e.preventDefault()
-        setIsLoading(true)
-        setError('')
-
-        try {
-            const res = await fetch('http://127.0.0.1:8000/api/login/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            })
-
-            const data = await res.json()
-
-            if (!res.ok) {
-                throw new Error(data.error || 'Sign in failed')
-            }
-
-            localStorage.setItem('access_token', data.access)
-            localStorage.setItem('refresh_token', data.refresh)
-
-            router.push('/dashboard')
-            alert('Logged In succesfully!');
-        } catch (err) {
-            setError(err.message)
-        } finally {
-            setIsLoading(false)
+        const data = await res.json();
+        if (res.ok) {
+            localStorage.setItem('token', data.token);
+            alert('Sign in successful!');
+        } else {
+            alert(data.error || 'Sign in failed.');
         }
-    }
+    };
 
     return (
         <section className="md:pt-36 sm:pt-32 bg-white">
@@ -104,7 +79,8 @@ const SignIn = () => {
                         <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl">Sign in to Celebration</h2>
                         <p className="mt-2 text-base text-gray-600">Don’t have an account? <a href="/auth/sign-up" title="" className="font-medium text-green-600 transition-all duration-200 hover:text-green-700 focus:text-green-700 hover:underline">Create a free account</a></p>
 
-                        <form onSubmit={handleSignin} className="mt-8">
+                        <form onSubmit={handleSubmit} className="mt-8">
+                        {/* {error && <div className="text-red-500">{error}</div>} */}
                             <div className="space-y-5">
                                 <div>
                                     <label htmlFor="" className="text-base font-medium text-gray-900"> Username </label>
@@ -118,9 +94,9 @@ const SignIn = () => {
                                         <input
                                             type="text"
                                             name="username"
-                                            id="mail"
-                                            value={formData.username}
-                                            onChange={handleChange}
+                                            // id="email"
+                                            // value={formData.email}
+                                            // onChange={(e) => setFormData({...formData, email: e.target.value})}
                                             placeholder="Enter username to get started"
                                             className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-green-600 focus:bg-white caret-green-600"
                                         />
@@ -149,8 +125,8 @@ const SignIn = () => {
                                             type="password"
                                             name="password"
                                             id="pass"
-                                            value={formData.password}
-                                            onChange={handleChange}
+                                            // value={formData.password}
+                                            // onChange={(e) => setFormData({...formData, password: e.target.value})}
                                             placeholder="Enter your password"
                                             className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-green-600 focus:bg-white caret-green-600"
                                         />
@@ -160,19 +136,15 @@ const SignIn = () => {
                                 <div>
                                     <button
                                         type="submit"
-                                        disabled={isLoading}
+                                        // disabled={isLoading}
                                         className="relative inline-flex items-center justify-center w-full px-6 py-3 text-base font-bold text-white transition-all duration-200 bg-[#05131c] border-2 border-transparent lg:w-auto focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 font-pj hover:bg-opacity-90 rounded-full"
                                     >
-                                         {isLoading ? 'Signing in...' : 'Sign in'}
+                                         {/* {isLoading ? 'Signing in...' : 'Sign in'} */}
+                                         SignIn
                                     </button>
                                 </div>
                             </div>
                         </form>
-                        {error && (
-                            <div className="bg-red-50 p-4 rounded-md">
-                                <p className="text-red-700">{error}</p>
-                            </div>
-                        )}
 
                         <div className="mt-3 space-y-3">
                             <button

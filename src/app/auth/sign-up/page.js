@@ -1,51 +1,30 @@
 'use client'
 import { useState } from "react"
 import { useRouter } from "next/navigation";
+import { register } from '@/lib/auth';
 
 export default function SignUp() {
-    const router = useRouter()
-    const [isLoading, setIsLoading] = useState(false)
-    const [error, setError] = useState('')
-    const [formData, setFormData] = useState({
-        username: '',
-        email: '',
-        password: '',
-    })
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const res = await fetch('http://localhost:8000/api/signup/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: event.target.username.value,
+                password: event.target.password.value,
+                email: event.target.email.value,
+            }),
+        });
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        })
-    }
-
-    const handleSignup = async (e) => {
-        e.preventDefault()
-        setIsLoading(true)
-        setError('')
-
-        try {
-            const res = await fetch('http://127.0.0.1:8000/api/register/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            })
-
-            const data = await res.json()
-
-            if (!res.ok) {
-                throw new Error(data.error || 'Registration failed')
-            }
-
-            router.push('/auth/sign-in')
-        } catch (err) {
-            setError(err.message)
-        } finally {
-            setIsLoading(false)
+        const data = await res.json();
+        if (res.ok) {
+            localStorage.setItem('token', data.token);
+            alert('Signup successful!');
+        } else {
+            alert(data.error || 'Signup failed.');
         }
-    }
+    };
+
     return (
         <section className="bg-white sm:pt-32 md:pt-36">
 
@@ -112,10 +91,11 @@ export default function SignUp() {
                             </div>
                         } */}
 
-                        <form onSubmit={handleSignup} className="mt-8">
+                        <form onSubmit={handleSubmit} className="mt-8">
+                            {/* {error && <div className="text-red-500">{error}</div>} */}
                             <div className="space-y-5">
                                 <div>
-                                    <label htmlFor="" className="text-base font-medium text-gray-900"> First name </label>
+                                    <label htmlFor="" className="text-base font-medium text-gray-900"> Username </label>
                                     <div className="mt-2.5 relative text-gray-400 focus-within:text-gray-600">
                                         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                             <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -129,8 +109,8 @@ export default function SignUp() {
                                             id="name"
                                             placeholder="Enter your full name"
                                             className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-green-600 focus:bg-white caret-green-600"
-                                            value={formData.username}
-                                            onChange={handleChange}
+                                        // value={formData.username}
+                                        // onChange={(e) => setFormData({...formData, username: e.target.value})}
                                         />
                                     </div>
                                 </div>
@@ -148,8 +128,8 @@ export default function SignUp() {
                                             type="email"
                                             name="email"
                                             id="mail"
-                                            value={formData.email}
-                                            onChange={handleChange}
+                                            // value={formData.email}
+                                            // onChange={(e) => setFormData({...formData, email: e.target.value})}
                                             placeholder="Enter email to get started"
                                             className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-green-600 focus:bg-white caret-green-600"
                                         />
@@ -173,8 +153,8 @@ export default function SignUp() {
                                         <input
                                             type="password"
                                             name="password"
-                                            value={formData.password}
-                                            onChange={handleChange}
+                                            // value={formData.password}
+                                            // onChange={(e) => setFormData({...formData, password: e.target.value})}
                                             id="pass"
                                             placeholder="Enter your password"
                                             className="block w-full py-4 pl-10 pr-4 text-black placeholder-gray-500 transition-all duration-200 border border-gray-200 rounded-md bg-gray-50 focus:outline-none focus:border-green-600 focus:bg-white caret-green-600"
