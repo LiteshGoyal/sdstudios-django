@@ -2,7 +2,7 @@ import { Link } from "lucide-react";
 
 
 export default function BlogPage({ params }) {
-  const blog = blogs.find((b) => b.id === params.id);
+  const blog = blog.find((b) => b.id === params.id);
 
   if (!blog) {
     return <div>Blog not found!</div>;

@@ -1,7 +1,14 @@
 'use client'
 import React, { useState } from 'react';
-// import withAuth from '@/components/HOC';
+import { handleSignOut } from '@/utils/auth';
 const DashboardNavigation = ({ children }) => {
+    const handleClick = async (event) => {
+        event.preventDefault();
+        const success = await handleSignOut();
+        if (success) {
+            window.location.href = '/auth/sign-in';
+        }
+    };
     return (
         <div>
             <header className="bg-gray-900 mt-36 border-b border-gray-700 mx-12">
@@ -47,7 +54,7 @@ const DashboardNavigation = ({ children }) => {
                                     <p className='hidden lg:block'>Support</p>
                                     
                                 </a>
-                                <a href="/auth/sign-out" title="" className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 transition-all duration-200 bg-white rounded-lg hover:bg-gray-100">
+                                <a href="/auth/sign-out" onClick={handleClick} className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 transition-all duration-200 bg-white rounded-lg hover:bg-gray-100">
                                     <svg className="w-6 h-6 mr-2 -ml-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
                                     </svg>

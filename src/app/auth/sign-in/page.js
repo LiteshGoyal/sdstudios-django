@@ -1,7 +1,5 @@
 'use client'
 import React, { useState } from 'react';
-import { useRouter } from "next/navigation";
-import { login } from '@/lib/auth';
 
 const SignIn = () => {
     const handleSubmit = async (event) => {
@@ -16,9 +14,15 @@ const SignIn = () => {
         });
 
         const data = await res.json();
+        console.log(data.token);
         if (res.ok) {
             localStorage.setItem('token', data.token);
+            // console.log(localStorage.getItem(token));
+            console.log('afterlogin---------------',data.token);
+            
+            
             alert('Sign in successful!');
+            location.href='/dashboard'
         } else {
             alert(data.error || 'Sign in failed.');
         }

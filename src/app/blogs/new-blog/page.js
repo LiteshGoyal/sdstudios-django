@@ -8,4 +8,4 @@ function AddNewBlog() {
     </div>
   );
 }
-export default withAuth(AddNewBlog)
+export default AddNewBlog

@@ -5,30 +5,15 @@ import { Plus } from "lucide-react";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      try {
-        const response = await fetch(`http://127.0.0.1:8000/api/blogs/list`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch blogs");
-        }
-        const data = await response.json();
-        setBlogs(data);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
+      const res = await fetch('http://localhost:8000/api/blogs/list/');
+      const data = await res.json();
+      setBlogs(data);
     };
     fetchBlogs();
   }, []);
-
-  if (loading) return <p className="text-center mt-10">Loading blogs...</p>;
-  if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
-
   return (
     <div className="bg-gray-100 pt-40 min-h-screen py-10">
       <div className="max-w-6xl mx-auto px-4">
@@ -45,19 +30,23 @@ const Blogs = () => {
             <Link key={blog.id} href={`/blogs/${blog.id}`}>
               <div className="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer hover:shadow-lg hover:scale-105 transition-transform duration-300 transition-shadow">
                 <img
-                  src={blog.image}
+                  src={`http://localhost:8000${blog.image}`}
                   alt={blog.title}
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-4">
                   <h2 className="text-xl font-semibold text-gray-800">
-                    {blog.headline}
+                    {blog.subtitle}
                   </h2>
                   <p className="text-gray-600 text-sm mt-1">
-                    {blog.created_at}
+                    {new Date(blog.created_at).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
                   </p>
                   <p className="text-gray-700 mt-2">{blog.description}</p>
-                  <p className="text-gray-700 mt-2">{blog.author_username}</p>
+                  <p className="text-gray-700 mt-2">{blog.author}</p>
                 </div>
               </div>
             </Link>

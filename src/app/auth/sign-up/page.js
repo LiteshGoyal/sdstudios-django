@@ -6,17 +6,21 @@ import { register } from '@/lib/auth';
 export default function SignUp() {
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const username = event.target.username.value;
+        const password = event.target.password.value;
+        const email = event.target.email.value;
+
+        console.log({ username, password, email });  // Debugging log
+
         const res = await fetch('http://localhost:8000/api/signup/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                username: event.target.username.value,
-                password: event.target.password.value,
-                email: event.target.email.value,
-            }),
+            body: JSON.stringify({ username, password, email }),
         });
 
         const data = await res.json();
+        console.log(data);  // Log response from backend
+
         if (res.ok) {
             localStorage.setItem('token', data.token);
             alert('Signup successful!');

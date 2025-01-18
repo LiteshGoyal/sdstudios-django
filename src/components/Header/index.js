@@ -1,14 +1,20 @@
 'use client'
 import { useState, useEffect } from 'react';
-
+import { handleSignOut } from '@/utils/auth';
 import { usePathname } from 'next/navigation';
-import Dashboard from '@/app/dashboard/page';
 
 const Header = () => {
   const pathname = usePathname();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const [isDashOpen, setIsDashOpen] = useState(false);
+  const handleClick = async (event) => {
+    event.preventDefault();
+    const success = await handleSignOut();
+    if (success) {
+      window.location.href = '/auth/sign-in';
+    }
+  };
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -16,11 +22,16 @@ const Header = () => {
     pathname === '/'
       ? ''
       : 'bg-[#05131c]';
-      
+
   useEffect(() => {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
-}, []);
+    if (pathname === '/dashboard') {
+      setIsDashOpen(true);
+    } else {
+      setIsDashOpen(false);
+    }
+  }, []);
   return (
     <div>
       <header className={`absolute inset-x-0 top-0 z-10 py-5 xl:py-8 ${bgColor}`}>
@@ -88,15 +99,26 @@ const Header = () => {
               >
                 Contact Us
               </a>
-              {isLoggedIn ?(
-                <a
-                href="/dashboard"
-                title=""
-                className="inline-flex items-center justify-center px-5 py-2 font-sans text-base font-semibold leading-6 transition-all duration-200 border-2 border-transparent rounded-full sm:leading-8 bg-white sm:text-xl text-black hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-secondary hover:scale-110"
-              >
-                Dashboard
-              </a>
-              ):(
+              {isLoggedIn ? (
+                pathname === '/dashboard' ? (
+                  <a
+                    href="/auth/sign-out"
+                    title="Sign out"
+                    onClick={handleClick}
+                    className="inline-flex items-center justify-center px-5 py-2 font-sans text-base font-semibold leading-6 transition-all duration-200 border-2 border-transparent rounded-full sm:leading-8 bg-white sm:text-xl text-black hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-secondary hover:scale-110"
+                  >
+                    Sign Out
+                  </a>
+                ) : (
+                  <a
+                    href="/dashboard"
+                    title="Go to dashboard"
+                    className="inline-flex items-center justify-center px-5 py-2 font-sans text-base font-semibold leading-6 transition-all duration-200 border-2 border-transparent rounded-full sm:leading-8 bg-white sm:text-xl text-black hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-secondary hover:scale-110"
+                  >
+                    Dashboard
+                  </a>
+                )
+              ) : (
                 <a
                   href="/auth/sign-up"
                   title=""
@@ -131,22 +153,34 @@ const Header = () => {
             >
               Contact Us
             </a>
-              {isLoggedIn ?(
+            {isLoggedIn ? (
+              pathname === '/dashboard' ? (
                 <a
-                href="/dashboard"
-                className="block text-white text-lg font-semibold py-2"
-              >
+                  href="/auth/sign-out"
+                  onClick={handleClick}
+                  title="Sign out"
+                  className="block text-white text-lg font-semibold py-2"
+                >
+                  Sign Out
+                </a>
+              ) : (
+                <a
+                  href="/dashboard"
+                  title="Go to dashboard"
+                  className="block text-white text-lg font-semibold py-2"
+                >
                   Dashboard
                 </a>
-              ):(
-                <a
-              href="/auth/sign-up"
-              className="block text-white text-lg font-semibold py-2"
-            >
+              )
+            ) : (
+              <a
+                href="/auth/sign-up"
+                className="block text-white text-lg font-semibold py-2"
+              >
                 SignUp
               </a>
-              )
-              }
+            )
+            }
           </div>
         </div>
       </header>
